@@ -1,36 +1,15 @@
 /*!*************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
   \*************************************************************************************************************************************/
+body {
+  text-align: center;
+}
+
 h1 {
   font-family: "Nosifer", sans-serif;
   color: rgb(189, 17, 17);
 }
 
-body {
-  text-align: center;
-}
-
-.board {
-  display: flex;
-  height: 906px;
-  width: 906px;
-  flex-wrap: wrap;
-  background-color: lightblue;
-  border: 1mm solid black;
-}
-
-.sector {
-  display: flex;
-  height: 300px;
-  width: 300px;
-  flex-wrap: wrap;
-  border: 1px solid black;
-}
-
-.cell {
-  display: flex;
-  height: 100px;
-  width: 100px;
-  border: 0.5mm solid black;
-  box-sizing: border-box;
+canvas:hover {
+  cursor: pointer;
 }
