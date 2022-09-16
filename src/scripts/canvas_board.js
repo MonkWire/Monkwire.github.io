@@ -1,32 +1,30 @@
 export class CanvasBoard {
-    constructor(pencilMarks, penMarks, sumClues, gridWidth, gridHeight) {
-        this.penMarks = penMarks;
-        this.pencilMarks = pencilMarks;
+    constructor(sumClues, boardSize, gridWidth, gridHeight) {
         this.sumClues = sumClues;
+        this.boardSize= boardSize;
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
     };
 
     drawGridLines(ctx) {
-        console.log("drawing grid lines");
         ctx.beginPath();
         ctx.rect(0, 0, this.gridWidth, this.gridHeight);
         ctx.strokeStyle = "black";
         ctx.lineWidth = 8;
         ctx.stroke();
 
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < this.boardSize; i++) {
             ctx.beginPath();
-            ctx.moveTo(0, (this.gridHeight / 9) * i);
-            ctx.lineTo(this.gridWidth, (this.gridHeight / 9) * i);
+            ctx.moveTo(0, (this.gridHeight / this.boardSize) * i);
+            ctx.lineTo(this.gridWidth, (this.gridHeight / this.boardSize) * i);
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
             if (i % 3 === 0)  { ctx.lineWidth = 4};
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.moveTo((this.gridWidth / 9) * i, 0);
-            ctx.lineTo((this.gridWidth / 9) * i, this.gridHeight);
+            ctx.moveTo((this.gridWidth / this.boardSize) * i, 0);
+            ctx.lineTo((this.gridWidth / this.boardSize) * i, this.gridHeight);
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
             if (i % 3 === 0) { ctx.lineWidth = 4};
@@ -34,23 +32,36 @@ export class CanvasBoard {
         };
     };
 
-    drawPenMarks(ctx, currentBoard) {
-        // for (let i = 0; i < 9; i++) {
-        //     for (let j = 0; j < 9; j++) {
-        //         ctx.font = '30px serif';
-                // ctx.fillText(`${j}`, (this.gridWidth / 9) * i + 25, (this.gridHeight / 9) * j + 45);
-        //     };
-        // };
-
+    drawPenMarks(ctx, penMarkings) {
         let currIndex = 0;
 
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
-                if (currentBoard[currIndex] != 0) {
+                if (penMarkings[currIndex] != 0) {
                     ctx.font = '30px serif';
-                    ctx.fillText(`${currentBoard[currIndex]}`, (this.gridWidth / 9) * i + 25, (this.gridHeight / 9) * j + 45);
+                    ctx.fillText(`${penMarkings[currIndex]}`, (this.gridWidth / 9) * i + 25, (this.gridHeight / 9) * j + 45);
                 };
+                currIndex++
             };
         };
     };
+
+    drawPencilMarks(ctx, penMarkings, pencilMarkings) {
+
+        let currIndex = 0;
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (penMarkings[currIndex] === 0) {
+                    for (let x = 0; x < this.boardSize; x++) {
+                        if (pencilMarkings[currIndex][x] != 0) {
+                            ctx.font = '15px serif';
+                            ctx.fillText(`${pencilMarkings[currIndex][x]}`, (this.gridWidth / 9) * i + 25, (this.gridHeight / 9) * j + 45);
+                        }
+                    }
+                }
+            currIndex++
+            }
+
+        }
+    }
 };
