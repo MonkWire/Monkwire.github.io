@@ -47,21 +47,23 @@ export class CanvasBoard {
     };
 
     drawPencilMarks(ctx, penMarkings, pencilMarkings) {
-
         let currIndex = 0;
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if (penMarkings[currIndex] === 0) {
-                    for (let x = 0; x < this.boardSize; x++) {
-                        if (pencilMarkings[currIndex][x] != 0) {
-                            ctx.font = '15px serif';
-                            ctx.fillText(`${pencilMarkings[currIndex][x]}`, (this.gridWidth / 9) * i + 25, (this.gridHeight / 9) * j + 45);
-                        }
-                    }
-                }
-            currIndex++
-            }
-
-        }
-    }
+                    let pencilIndex = 0;
+                    for (let c = 0; c < 3; c++) {
+                        for (let r = 0; r < 3; r++) {
+                           if (pencilMarkings[currIndex][pencilIndex] != 0) {
+                               ctx.font = '15px serif';
+                               ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * i + (r * 20) + 10, (this.gridHeight / 9) * j + (c * 20) + 20);
+                           };
+                           pencilIndex++;
+                        };
+                    };
+                };
+            currIndex++;
+            };
+        };
+    };
 };

@@ -27,8 +27,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
         samplePencilMarks.push(cell);
     };
 
-    samplePencilMarks[1][3] = '4'
-    console.log(samplePencilMarks);
+
+    for (let i = 0; i < 9; i++) {
+        samplePencilMarks[0][i] = i;
+    };
+
+    for (let i = 0; i < 9; i++) {
+        samplePencilMarks[2][i] = i;
+    };
+
 
     const board = new CanvasBoard(null, 9, 600, 600);
     board.drawGridLines(ctx);
