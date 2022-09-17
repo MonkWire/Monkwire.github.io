@@ -6,6 +6,21 @@ export class CanvasBoard {
         this.gridHeight = gridHeight;
     };
 
+    update(ctx, selectedCell, penMarks, pencilMarks) {
+        this.drawBackground(ctx);
+        if (selectedCell) {
+            this.highlightSelectedCell(ctx, selectedCell);
+        };
+        this.drawGridLines(ctx);
+        this.drawPenMarks(ctx, penMarks);
+        this.drawPencilMarks(ctx, penMarks, pencilMarks);
+    }
+
+    drawBackground(ctx) {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, this.gridWidth, this.gridHeight);
+    }
+
     drawGridLines(ctx) {
         ctx.beginPath();
         ctx.rect(0, 0, this.gridWidth, this.gridHeight);
@@ -40,7 +55,7 @@ export class CanvasBoard {
                 if (penMarkings[currIndex] != 0) {
                     ctx.font = '30px serif';
                     ctx.fillStyle = 'black';
-                    ctx.fillText(`${penMarkings[currIndex]}`, (this.gridWidth / 9) * i + 25, (this.gridHeight / 9) * j + 45);
+                    ctx.fillText(`${penMarkings[currIndex]}`, (this.gridWidth / 9) * j + 25, (this.gridHeight / 9) * i + 45);
                 };
                 currIndex++
             };
@@ -56,10 +71,10 @@ export class CanvasBoard {
                     let pencilIndex = 0;
                     for (let c = 0; c < 3; c++) {
                         for (let r = 0; r < 3; r++) {
-                           if (pencilMarkings[currIndex][pencilIndex] != 0) {
+                           if (pencilMarkings[currIndex][pencilIndex] != -1) {
                                ctx.font = '15px serif';
                                ctx.fillStyle = "black";
-                               ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * i + (r * 20) + 10, (this.gridHeight / 9) * j + (c * 20) + 20);
+                               ctx.fillText(`${pencilMarkings[currIndex][pencilIndex]+ 1}`, (this.gridWidth / 9) * j + (r * 20) + 10, (this.gridHeight / 9) * i + (c * 20) + 20);
                            };
                            pencilIndex++;
                         };
@@ -76,10 +91,9 @@ export class CanvasBoard {
         for (let i = 0; i < this.boardSize; i++) {
             for (let j = 0; j < this.boardSize; j++) {
                 if (currIndex === cellNumber) {
-                    ctx.rect(this.gridWidth / 9 * i, this.gridHeight / 9 * j, this.gridWidth / 9, this.gridHeight / 9);
+                    ctx.rect(this.gridHeight / 9 * j, this.gridWidth / 9 * i, this.gridHeight / 9, this.gridWidth / 9);
                     ctx.fillStyle = "#d9d3c9";
                     ctx.fill();
-                    console.log('filled')
                 } else if (currIndex > cellNumber) {
                     break;
                 };
@@ -93,16 +107,12 @@ export class CanvasBoard {
         let currIndex = 0;
         for (let i = 0; i < this.boardSize; i++) {
             for (let j = 0; j < this.boardSize; j++) {
-                if ((((this.gridWidth / this.boardSize) * i) < x) && (x < ((this.gridWidth / this.boardSize * i) + (this.gridWidth / this.boardSize)))) {
-                    if (((this.gridHeight / this.boardSize * j) < y) && ((y < (this.gridHeight / this.boardSize * j) + (this.gridHeight / this.boardSize)))) {
+                if ((((this.gridHeight / this.boardSize) * j) < x) && (x < ((this.gridHeight / this.boardSize * j) + (this.gridHeight / this.boardSize)))) {
+                    if (((this.gridWidth / this.boardSize * i) < y) && ((y < (this.gridWidth / this.boardSize * i) + (this.gridWidth / this.boardSize)))) {
                         return currIndex;
                     }
                 }
 
-                console.log(`gWidth: ${this.gridWidth / this.boardSize * i} - ${(this.gridWidth / this.boardSize * i) + (this.gridWidth / this.boardSize)}`)
-                console.log(`gHeight: ${this.gridHeight / this.boardSize * j} - ${(this.gridHeight / this.boardSize * j) + (this.gridHeight / this.boardSize)}`)
-                console.log(`currIndex: ${currIndex}, i: ${i}, j: ${j}`);
-                console.log(`x, y: ${x} ${y}`)
                 
                 currIndex++;
             }
