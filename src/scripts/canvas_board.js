@@ -10,7 +10,7 @@ export class CanvasBoard {
 
     update(ctx, selectedCell, penMarks, pencilMarks) {
         this.drawBackground(ctx);
-        if (selectedCell) {
+        if (selectedCell != null) {
             this.highlightSelectedCell(ctx, selectedCell);
         };
         this.drawSumsOvelay(ctx);
@@ -217,7 +217,6 @@ export class CanvasBoard {
         if (this.sumClues.length === 0) {
             this.sumClues = new Array(81).fill(0)
             for (let i = 0; i < this.sumGroups.length; i++) {
-                console.log('setting sumClue')
                 this.sumClues[this.sumGroups[i].cells[0]] = this.sumGroups[i].sum;
             };
         };
@@ -227,7 +226,7 @@ export class CanvasBoard {
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if (this.sumClues[currIndex] != 0) {
-                    if (selectedCell && currIndex === selectedCell) {
+                    if (selectedCell != null && currIndex === selectedCell) {
                         ctx.fillStyle = '#d9d3c9';
                     } else {
                         ctx.fillStyle = 'white';
