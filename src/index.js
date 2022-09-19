@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     canvas.height = 600;
     canvas.width = 600;
     const sampleInputs = new SampleInputs();
-    const board = new CanvasBoard(null, 9, 600, 600, sampleInputs.sampleGroups);
+    const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
 
 
     board.update(ctx, null, sampleInputs.samplePenMarks, sampleInputs.samplePencilMarks);

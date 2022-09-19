@@ -1,10 +1,10 @@
 export class CanvasBoard {
-    constructor(sumClues, boardSize, gridWidth, gridHeight, sumGroups) {
-        this.sumClues = sumClues;
+    constructor(boardSize, gridWidth, gridHeight, sumGroups) {
         this.boardSize = boardSize;
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.sumGroups = sumGroups;
+        this.sumClues = [];
         this.walls = [];
     };
 
@@ -13,7 +13,8 @@ export class CanvasBoard {
         if (selectedCell) {
             this.highlightSelectedCell(ctx, selectedCell);
         };
-        this.drawSumsOvelay(ctx)
+        this.drawSumsOvelay(ctx);
+        this.drawSumClues(ctx, selectedCell);
         this.drawGridLines(ctx);
         this.drawPenMarks(ctx, penMarks);
         this.drawPencilMarks(ctx, penMarks, pencilMarks);
@@ -38,7 +39,7 @@ export class CanvasBoard {
             ctx.lineTo(this.gridWidth, (this.gridHeight / this.boardSize) * i);
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
-            if (i % 3 === 0)  { ctx.lineWidth = 4};
+            if (i % 3 === 0) { ctx.lineWidth = 4 };
             ctx.stroke();
 
             ctx.beginPath();
@@ -46,7 +47,7 @@ export class CanvasBoard {
             ctx.lineTo((this.gridWidth / this.boardSize) * i, this.gridHeight);
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
-            if (i % 3 === 0) { ctx.lineWidth = 4};
+            if (i % 3 === 0) { ctx.lineWidth = 4 };
             ctx.stroke();
         };
     };
@@ -75,16 +76,16 @@ export class CanvasBoard {
                     let pencilIndex = 0;
                     for (let c = 0; c < 3; c++) {
                         for (let r = 0; r < 3; r++) {
-                           if (pencilMarkings[currIndex][pencilIndex] != -1) {
-                               ctx.font = '15px serif';
-                               ctx.fillStyle = "black";
-                               ctx.fillText(`${pencilMarkings[currIndex][pencilIndex]+ 1}`, (this.gridWidth / 9) * j + (r * 20) + 10, (this.gridHeight / 9) * i + (c * 20) + 20);
-                           };
-                           pencilIndex++;
+                            if (pencilMarkings[currIndex][pencilIndex] != -1) {
+                                ctx.font = '15px serif';
+                                ctx.fillStyle = "black";
+                                ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * j + (r * 20) + 10, (this.gridHeight / 9) * i + (c * 20) + 20);
+                            };
+                            pencilIndex++;
                         };
                     };
                 };
-            currIndex++;
+                currIndex++;
             };
         };
     };
@@ -117,7 +118,7 @@ export class CanvasBoard {
                     };
                 };
 
-                
+
                 currIndex++;
             };
         };
@@ -128,7 +129,7 @@ export class CanvasBoard {
         let east = index + 1;
         let south = index + this.boardSize;
         let west = index - 1;
-        const adjacent = {n: north, e: east, s: south, w: west};
+        const adjacent = { n: north, e: east, s: south, w: west };
 
         return adjacent;
 
@@ -137,8 +138,8 @@ export class CanvasBoard {
     getWalls() {
         const walls = [];
 
-        for (let i = 0; i < this.boardSize**2; i++) {
-            walls.push({n: false, e: false, s: false, w: false});
+        for (let i = 0; i < this.boardSize ** 2; i++) {
+            walls.push({ n: false, e: false, s: false, w: false });
         }
 
 
@@ -162,13 +163,12 @@ export class CanvasBoard {
         return walls;
     };
 
-    
+
 
     drawSumsOvelay(ctx) {
         if (this.walls.length === 0) {
             this.walls = this.getWalls()
         }
-        console.log(this.walls);
 
         let currIndex = 0;
         for (let i = 0; i < 9; i++) {
@@ -186,13 +186,12 @@ export class CanvasBoard {
                     ctx.beginPath();
                     ctx.setLineDash([5, 5]);
                     ctx.strokeStyle = 'grey';
-                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7,  ((this.gridHeight / 9) * i) + 7)
+                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i) + 7)
                     ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
                     ctx.stroke();
                 };
 
                 if (this.walls[currIndex].s) {
-                    console.log('found s')
                     ctx.beginPath();
                     ctx.setLineDash([5, 5]);
                     ctx.strokeStyle = 'grey';
@@ -200,7 +199,7 @@ export class CanvasBoard {
                     ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)) - 7, (((this.gridHeight / 9) * i) + (this.gridHeight / 9) - 7))
                     ctx.stroke();
                 };
-                
+
                 if (this.walls[currIndex].w) {
                     ctx.beginPath();
                     ctx.setLineDash([5, 5]);
@@ -209,7 +208,37 @@ export class CanvasBoard {
                     ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
                     ctx.stroke();
                 };
-            currIndex++;
+                currIndex++;
+            };
+        };
+    };
+
+    drawSumClues(ctx, selectedCell) {
+        if (this.sumClues.length === 0) {
+            this.sumClues = new Array(81).fill(0)
+            for (let i = 0; i < this.sumGroups.length; i++) {
+                console.log('setting sumClue')
+                this.sumClues[this.sumGroups[i].cells[0]] = this.sumGroups[i].sum;
+            };
+        };
+
+
+        let currIndex = 0;
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (this.sumClues[currIndex] != 0) {
+                    if (selectedCell && currIndex === selectedCell) {
+                        ctx.fillStyle = '#d9d3c9';
+                    } else {
+                        ctx.fillStyle = 'white';
+                    };
+
+                    ctx.fillRect((this.gridWidth / 9) * j, ((this.gridHeight / 9) * i), 17, 17);
+                    ctx.font = '10px serif';
+                    ctx.fillStyle = 'rgb(189, 17, 17)';
+                    ctx.fillText(`${this.sumClues[currIndex]}`, ((this.gridWidth / 9) * j) + 5, ((this.gridHeight / 9) * i) + 15);
+                };
+                currIndex++;
             };
         };
     };
