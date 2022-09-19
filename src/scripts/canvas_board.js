@@ -1,9 +1,11 @@
 export class CanvasBoard {
-    constructor(sumClues, boardSize, gridWidth, gridHeight) {
+    constructor(sumClues, boardSize, gridWidth, gridHeight, sumGroups) {
         this.sumClues = sumClues;
         this.boardSize = boardSize;
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        this.sumGroups = sumGroups;
+        this.walls = [];
     };
 
     update(ctx, selectedCell, penMarks, pencilMarks) {
@@ -11,6 +13,7 @@ export class CanvasBoard {
         if (selectedCell) {
             this.highlightSelectedCell(ctx, selectedCell);
         };
+        this.drawSumsOvelay(ctx)
         this.drawGridLines(ctx);
         this.drawPenMarks(ctx, penMarks);
         this.drawPencilMarks(ctx, penMarks, pencilMarks);
@@ -24,6 +27,7 @@ export class CanvasBoard {
     drawGridLines(ctx) {
         ctx.beginPath();
         ctx.rect(0, 0, this.gridWidth, this.gridHeight);
+        ctx.setLineDash([]);
         ctx.strokeStyle = "black";
         ctx.lineWidth = 8;
         ctx.stroke();
@@ -110,12 +114,103 @@ export class CanvasBoard {
                 if ((((this.gridHeight / this.boardSize) * j) < x) && (x < ((this.gridHeight / this.boardSize * j) + (this.gridHeight / this.boardSize)))) {
                     if (((this.gridWidth / this.boardSize * i) < y) && ((y < (this.gridWidth / this.boardSize * i) + (this.gridWidth / this.boardSize)))) {
                         return currIndex;
-                    }
-                }
+                    };
+                };
 
                 
                 currIndex++;
-            }
+            };
+        };
+    };
+
+    getAdjacentCells(index) {
+        let north = index - this.boardSize;
+        let east = index + 1;
+        let south = index + this.boardSize;
+        let west = index - 1;
+        const adjacent = {n: north, e: east, s: south, w: west};
+
+        return adjacent;
+
+    };
+
+    getWalls() {
+        const walls = [];
+
+        for (let i = 0; i < this.boardSize**2; i++) {
+            walls.push({n: false, e: false, s: false, w: false});
         }
-    }
+
+
+        for (let i = 0; i < this.sumGroups.length; i++) {
+            for (let j = 0; j < this.sumGroups[i].cells.length; j++) {
+                let adjacentCells = this.getAdjacentCells(this.sumGroups[i].cells[j]);
+                if (!this.sumGroups[i].cells.includes(adjacentCells.n)) {
+                    walls[this.sumGroups[i].cells[j]].n = true;
+                };
+                if (!this.sumGroups[i].cells.includes(adjacentCells.e)) {
+                    walls[this.sumGroups[i].cells[j]].e = true;
+                };
+                if (!this.sumGroups[i].cells.includes(adjacentCells.s)) {
+                    walls[this.sumGroups[i].cells[j]].s = true;
+                };
+                if (!this.sumGroups[i].cells.includes(adjacentCells.w)) {
+                    walls[this.sumGroups[i].cells[j]].w = true;
+                };
+            };
+        };
+        return walls;
+    };
+
+    
+
+    drawSumsOvelay(ctx) {
+        if (this.walls.length === 0) {
+            this.walls = this.getWalls()
+        }
+        console.log(this.walls);
+
+        let currIndex = 0;
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (this.walls[currIndex].n) {
+                    ctx.beginPath();
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = 'grey';
+                    ctx.moveTo((this.gridWidth / 9 * j) + 7, (this.gridHeight / 9 * i) + 7)
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridWidth / 9) * i) + (7)))
+                    ctx.stroke();
+                };
+
+                if (this.walls[currIndex].e) {
+                    ctx.beginPath();
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = 'grey';
+                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7,  ((this.gridHeight / 9) * i) + 7)
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
+                    ctx.stroke();
+                };
+
+                if (this.walls[currIndex].s) {
+                    console.log('found s')
+                    ctx.beginPath();
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = 'grey';
+                    ctx.moveTo((this.gridWidth / 9 * j) + 7, (this.gridHeight / 9 * i) + ((this.gridHeight / 9) - 7))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)) - 7, (((this.gridHeight / 9) * i) + (this.gridHeight / 9) - 7))
+                    ctx.stroke();
+                };
+                
+                if (this.walls[currIndex].w) {
+                    ctx.beginPath();
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = 'grey';
+                    ctx.moveTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i) + 7)
+                    ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
+                    ctx.stroke();
+                };
+            currIndex++;
+            };
+        };
+    };
 };
