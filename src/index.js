@@ -25,9 +25,15 @@ document.addEventListener("DOMContentLoaded", ()=> {
     });
 
     document.addEventListener("keydown", (e) => {
+        console.log(e);
         if (selectedCell != null) {
             if (!isNaN(parseInt(e.key))) {
-                penMarks[selectedCell] = parseInt(e.key);
+                if (parseInt(e.key) === penMarks[selectedCell]) {
+                    penMarks[selectedCell] = 0;
+
+                } else {
+                    penMarks[selectedCell] = parseInt(e.key);
+                };
             } else if (e.key === 'Backspace') {
                 penMarks[selectedCell] = 0;
             } else if (e.key === 'ArrowLeft') {
@@ -46,7 +52,14 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 if (selectedCell < 72) {
                     selectedCell += 9;
                 };
-            };
+            } else if (['!', '@', '#', '$', '%', '^', '&', '*', '('].includes(e.key)) {
+                const shiftMaps = {['!']: 1, ['@']: 2, ['#']: 3, ['$']: 4, ['%']: 5, ['^']: 6, ['&']: 7, ['*']: 8, ['(']: 9 };
+                if (pencilMarks[selectedCell][shiftMaps[e.key] - 1] === -1) {
+                    pencilMarks[selectedCell][shiftMaps[e.key] -1] = shiftMaps[e.key] - 1;
+                } else {
+                    pencilMarks[selectedCell][shiftMaps[e.key] - 1] = -1;
+                }
+            }
         };
         board.update(ctx, selectedCell, penMarks, pencilMarks);
     });
