@@ -1,52 +1,89 @@
 export class Game {
-    constructor(gridSize=81, sumGroups) {
+    constructor(sumGroups, gridSize=81) {
+        this.gridSize = gridSize;
         this.penMarks = new Array(gridSize).fill(0);
-        this.pencilMarks = new Array(gridSize).fill(0);
+        this.pencilMarks = new Array(gridSize).fill(-1);
         this.errors = new Array(gridSize).fill(false);
         this.sumGroups = sumGroups;
     };
 
-    checkRow(row) {
+    checkGroup(group) {
         let counts = {};
         let seen = [];
 
-        for (let i = 0; i < row.length; i++) {
-            if (seen.includes(row[i])) {
-                counts[row[i]] += 1;
+        for (let i = 0; i < group.length; i++) {
+            if (seen.includes(group[i])) {
+                counts[group[i]] += 1;
             } else {
-                seen.push(row[i]);
-                counts[row[i]] = 1;
+                seen.push(group[i]);
+                counts[group[i]] = 1;
             };
         };
 
-        let rowErrors = [];
-        for (let i = 0; i < row.length; i++) {
-            if (counts[row[i]] > 1) {
-                rowErrors.push(true);
+        let groupErrors = [];
+        for (let i = 0; i < group.length; i++) {
+            if (counts[group[i]] > 1) {
+                groupErrors.push(true);
             } else {
-                rowErrors.push(false);
+                groupErrors.push(false);
             };
+        };
+
+
+        return groupErrors;
+    };
+
+    getRowErrors() {
+        let rowErrors = [];
+
+        let currIndex = 0;
+        for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
+            let row = [];
+            for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
+                row.push(this.penMarks[currIndex]);
+                currIndex++;
+            };
+
+            let currRowErrors = this.checkGroup(row);
+            for (let j = 0; j < currRowErrors.length; j++) {
+                rowErrors.push(currRowErrors[j])
+            }
         };
 
         return rowErrors;
     };
 
-    checkRows() {
-        let rows = [];
-        let currIndex = [];
-        rowErrors = [];
+    
+
+
+    getColumnErrors() {
+        let currIndex = 0;
+        let colErrors = [];
+        let col = [];
 
         for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
             for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
-                if (Math.floor(j / Math.sqrt(this.gridSize) > i)) {
-                    rowErrors.concat(this.checkRow(row));
-                    row = [];
+                if (j % Math.sqrt(this.gridSize) === 0) {
+                    colErrors.concat(this.checkGroup(col));
+                    col = [];
                 };
-                row.push(this.penMarks[currIndex]);
+
+                col.push(this.penMarks[currIndex]);
                 currIndex++;
             };
-
         };
 
+        let transposedColErrors = new Array(this.gridSize).fill(0);
+
+        indexA = 0;
+        indexB = 0;
+        for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
+            for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
+                indexA++;
+            }
+
+        }
+        return transposedColErrors;
     };
 };
+
