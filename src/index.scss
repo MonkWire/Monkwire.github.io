@@ -27,4 +27,14 @@ ul {
 
 #hide-button {
     margin-bottom: 15px;
+    border-radius: 0px;
+}
+
+@media (max-width: 900px)  {
+    #description {
+        max-width: 90%;
+    }
+    canvas {
+        width: 90%;
+    }
 }

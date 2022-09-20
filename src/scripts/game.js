@@ -7,6 +7,10 @@ export class Game {
         this.sumGroups = sumGroups;
     };
 
+    checkErrors() {
+        this.errors = this.getRowErrors();
+    }
+
     checkGroup(group) {
         let counts = {};
         let seen = [];

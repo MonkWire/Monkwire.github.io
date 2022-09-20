@@ -8,7 +8,7 @@ export class CanvasBoard {
         this.walls = [];
     };
 
-    update(ctx, selectedCell, penMarks, pencilMarks) {
+    update(ctx, selectedCell, penMarks, pencilMarks, errors) {
         this.drawBackground(ctx);
         if (selectedCell != null) {
             this.highlightSelectedCell(ctx, selectedCell);
@@ -16,7 +16,7 @@ export class CanvasBoard {
         this.drawSumsOvelay(ctx);
         this.drawSumClues(ctx, selectedCell);
         this.drawGridLines(ctx);
-        this.drawPenMarks(ctx, penMarks);
+        this.drawPenMarks(ctx, penMarks, errors);
         this.drawPencilMarks(ctx, penMarks, pencilMarks);
     }
 
@@ -52,7 +52,8 @@ export class CanvasBoard {
         };
     };
 
-    drawPenMarks(ctx, penMarkings) {
+    drawPenMarks(ctx, penMarkings, errors) {
+        console.log('in draw pen parks, errors; ', errors);
         let currIndex = 0;
 
         for (let i = 0; i < 9; i++) {
@@ -60,6 +61,9 @@ export class CanvasBoard {
                 if (penMarkings[currIndex] != 0) {
                     ctx.font = '30px serif';
                     ctx.fillStyle = 'black';
+                    if (errors[currIndex]) {
+                        ctx.fillStyle = 'rgb(189, 17, 17)';
+                    }
                     ctx.fillText(`${penMarkings[currIndex]}`, (this.gridWidth / 9) * j + 25, (this.gridHeight / 9) * i + 45);
                 };
                 currIndex++

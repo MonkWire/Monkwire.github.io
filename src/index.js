@@ -1,5 +1,6 @@
 import { CanvasBoard } from './scripts/canvas_board'
 import { SampleInputs } from './scripts/sample_inputs';
+import { Game } from './scripts/game';
 
 document.addEventListener("DOMContentLoaded", ()=> {
     const description = document.querySelector("#description");
@@ -11,7 +12,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
         } else {
             description.style.display = "none";
         };
-
     });
 
     const canvas = document.querySelector("canvas");
@@ -21,19 +21,26 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
     const sampleInputs = new SampleInputs();
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
+    const game = new Game(null);
+    game.penMarks = sampleInputs.penErrors;
+    console.log('error testing: ');
+    // console.log(testGame.getRowErrors())
+    // console.log(testGame.getRowErrors().length)
 
     let selectedCell = 0;
-    let penMarks = sampleInputs.blankPenMarks;
+    let penMarks = game.penMarks;
     let pencilMarks = sampleInputs.samplePencilMarks;
 
-    board.update(ctx, selectedCell, penMarks, pencilMarks);
+    game.checkErrors();
+    board.update(ctx, selectedCell, penMarks, pencilMarks, game.errors);
 
     canvas.addEventListener("click", (e) => {
         let y = e.clientY - e.target.getBoundingClientRect().top;
         let x = e.clientX - e.target.getBoundingClientRect().left;
         selectedCell = board.getCellNumber(x, y);
 
-        board.update(ctx, selectedCell, penMarks, pencilMarks);
+        game.checkErrors();
+        board.update(ctx, selectedCell, penMarks, pencilMarks, game.errors);
     });
 
     document.addEventListener("keydown", (e) => {
@@ -75,6 +82,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 };
             };
         };
-        board.update(ctx, selectedCell, penMarks, pencilMarks);
+        game.checkErrors();
+        board.update(ctx, selectedCell, penMarks, pencilMarks, game.errors);
     });
 });
