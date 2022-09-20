@@ -13,7 +13,26 @@
 </head>
 <body>
     <h1>Killer Sudoku</h1>
-    <div id="board-container"></div>
+    <div id=description>
+        <p>
+            <b>Sudoku</b> is a puzzle game typically played on a 9 x 9 board. A board can be broken into nine rows, nine columns, or nine (3 x 3) squares, each containing nine cells. A sudoku board is completed when every cell is filled such that no numbers are repeated within a square, column, or row.
+        </p>
+        <p>
+            <b>Killer Sudoku</b> is a variant of Sudoku that introduces the additional constraint of sum groups. A sum group is a group of non-repeating cells which add up to a specified sum. These sum groups are represented visually with an overlay of dashed lines and red sums. Complete the puzzle by fully filling the board with integers from one to nine, such that all rows, columns, squares, and sum groups are populated with non-repeating numbers.
+        </p>
+        <p>
+            <b>Gameplay:</b> Select a cell with the mouse, or by using the arrow keys; the selected cell will be highlighted. You can enter a pen marking by first selecting the cell you wish to mark, then using the keyboard to input a number. Pencil markings are added in the same way, except with the Shift key depressed. Error checking is only applied to pen marks, as pencil marks are completely ignored by the game. To remove a pencil or pen marking, re-input that marking while the appropriate cell is selected. Alternatively, press the Backspace key to remove all pencil and pen markings from the selected cell. 
+        </p>
+        <p>
+            <b>Tips:</b> 
+            <ul>
+                <li>All classic sudoku solving techiniques can be used in a game of killer sudoku.</li>
+                <li>Each row, column, and square has a sum of 45. Consider a square in which all cells within belong to sum groups that are fully enclosed within its boundaries. The sum of the sums of all enclosed cell groups would be 45. Now, consider that all cells within a square are in fully enclosed sum groups except for one cell. The value of that cell would be equal to 45 minus the sum of all fully enclosed groups.</li>
+                <li>Many sum groups affect the maximum and minimum numbers that can be found in their enclosed cells. For example, a cell in a two-cell sum group with a sum of 4 can only hold a 1 or a 3. Any other number will either be too large, or be invalidated by the constraint that all numbers within a sum group must be unique. Now, consider the example of a three-cell group with a sum of 24. This group is guaranteed to contain 7, 8, and 9, as that is the only non-repeating combination of single-digit numbers that sum to 24.</li>
+            </ul>
+        </p>
+    </div>
+    <div id="hide-button"><button>Hide</button></div>
     <canvas></canvas>
     
 </body>

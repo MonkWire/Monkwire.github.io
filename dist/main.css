@@ -13,3 +13,21 @@ h1 {
 canvas:hover {
   cursor: pointer;
 }
+
+p {
+  text-align: justify;
+}
+
+#description {
+  max-width: 800px;
+  margin: auto;
+}
+
+ul {
+  text-align: left;
+  list-style: "- ";
+}
+
+#hide-button {
+  margin-bottom: 15px;
+}

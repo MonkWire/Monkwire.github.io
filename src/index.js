@@ -2,6 +2,18 @@ import { CanvasBoard } from './scripts/canvas_board'
 import { SampleInputs } from './scripts/sample_inputs';
 
 document.addEventListener("DOMContentLoaded", ()=> {
+    const description = document.querySelector("#description");
+    const hideAndShowButton = document.querySelector("#hide-button");
+    hideAndShowButton.addEventListener("click", (e) => {
+        console.log(e)
+        if (description.style.display === 'none') {
+            description.style.display = "inline-block";
+        } else {
+            description.style.display = "none";
+        };
+
+    });
+
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext('2d');
     canvas.height = 600;
@@ -10,7 +22,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const sampleInputs = new SampleInputs();
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
 
-    let selectedCell = null;
+    let selectedCell = 0;
     let penMarks = sampleInputs.blankPenMarks;
     let pencilMarks = sampleInputs.samplePencilMarks;
 
@@ -35,6 +47,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 };
             } else if (e.key === 'Backspace') {
                 penMarks[selectedCell] = 0;
+                for (let i = 0; i < 9; i++) {
+                    pencilMarks[selectedCell][i] = -1;
+                }
             } else if (e.key === 'ArrowLeft') {
                 if (selectedCell % 9 != 0) {
                     selectedCell--;
