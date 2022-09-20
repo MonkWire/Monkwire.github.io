@@ -53,7 +53,6 @@ export class CanvasBoard {
     };
 
     drawPenMarks(ctx, penMarkings, errors) {
-        console.log('in draw pen parks, errors; ', errors);
         let currIndex = 0;
 
         for (let i = 0; i < 9; i++) {

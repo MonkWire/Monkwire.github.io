@@ -62,6 +62,13 @@ export class Game {
         let currIndex = 0;
         let colErrors = [];
 
+
+        let cols = [];
+
+        for (let i = 0; i < 9; i++) {
+            
+
+        }
         // for (let i = 0; )÷
 
 

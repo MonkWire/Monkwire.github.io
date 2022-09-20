@@ -24,10 +24,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const sampleInputs = new SampleInputs();
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
     const game = new Game(null);
-    game.penMarks = sampleInputs.penErrors;
-    console.log('error testing: ');
-    // console.log(testGame.getRowErrors())
-    // console.log(testGame.getRowErrors().length)
 
     let selectedCell = 0;
     let penMarks = game.penMarks;
