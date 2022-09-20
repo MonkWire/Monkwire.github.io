@@ -9,8 +9,10 @@ document.addEventListener("DOMContentLoaded", ()=> {
         console.log(e)
         if (description.style.display === 'none') {
             description.style.display = "inline-block";
+            hideAndShowButton.innerText = "Hide";
         } else {
             description.style.display = "none";
+            hideAndShowButton.innerText = "Show";
         };
     });
 

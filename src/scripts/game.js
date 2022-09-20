@@ -57,37 +57,37 @@ export class Game {
         return rowErrors;
     };
 
-    
-
 
     getColumnErrors() {
         let currIndex = 0;
         let colErrors = [];
-        let col = [];
 
-        for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
-            for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
-                if (j % Math.sqrt(this.gridSize) === 0) {
-                    colErrors.concat(this.checkGroup(col));
-                    col = [];
-                };
+        // for (let i = 0; )÷
 
-                col.push(this.penMarks[currIndex]);
-                currIndex++;
-            };
-        };
 
-        let transposedColErrors = new Array(this.gridSize).fill(0);
 
-        indexA = 0;
-        indexB = 0;
-        for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
-            for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
-                indexA++;
-            }
+        // let currIndex = 0;
+        // let colErrors = [];
+        // let col = [];
 
-        }
-        return transposedColErrors;
+        // for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
+        //     for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
+        //         if (j % Math.sqrt(this.gridSize) === 0) {
+        //             colErrors.concat(this.checkGroup(col));
+        //             col = [];
+        //         };
+
+        //         col.push(this.penMarks[currIndex]);
+        //         currIndex++;
+        //     };
+        // };
+
+        // let transposedColErrors = new Array(this.gridSize).fill(0);
+        // while colE
+
+
+
+        // return transposedColErrors;
     };
 };
 
