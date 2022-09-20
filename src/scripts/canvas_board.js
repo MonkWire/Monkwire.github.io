@@ -142,20 +142,24 @@ export class CanvasBoard {
             walls.push({ n: false, e: false, s: false, w: false });
         }
 
+        // const walls = new Array(81).fill().map((x) => ({n: false, e: false, s: false, w: false});
 
         for (let i = 0; i < this.sumGroups.length; i++) {
             for (let j = 0; j < this.sumGroups[i].cells.length; j++) {
+                const adjacentInclude = (dir) => {
+                    return !this.sumGroups[i].cells.includes(dir);
+                };
                 let adjacentCells = this.getAdjacentCells(this.sumGroups[i].cells[j]);
-                if (!this.sumGroups[i].cells.includes(adjacentCells.n)) {
+                if (adjacentInclude(adjacentCells.n)) {
                     walls[this.sumGroups[i].cells[j]].n = true;
                 };
-                if (!this.sumGroups[i].cells.includes(adjacentCells.e)) {
+                if (adjacentInclude(adjacentCells.e)) {
                     walls[this.sumGroups[i].cells[j]].e = true;
                 };
-                if (!this.sumGroups[i].cells.includes(adjacentCells.s)) {
+                if (adjacentInclude(adjacentCells.s)) {
                     walls[this.sumGroups[i].cells[j]].s = true;
                 };
-                if (!this.sumGroups[i].cells.includes(adjacentCells.w)) {
+                if (adjacentInclude(adjacentCells.w)) {
                     walls[this.sumGroups[i].cells[j]].w = true;
                 };
             };

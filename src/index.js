@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
     });
 
     document.addEventListener("keydown", (e) => {
-        console.log(e);
         if (selectedCell != null) {
             if (!isNaN(parseInt(e.key))) {
                 if (parseInt(e.key) === penMarks[selectedCell]) {
@@ -58,8 +57,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
                     pencilMarks[selectedCell][shiftMaps[e.key] -1] = shiftMaps[e.key] - 1;
                 } else {
                     pencilMarks[selectedCell][shiftMaps[e.key] - 1] = -1;
-                }
-            }
+                };
+            };
         };
         board.update(ctx, selectedCell, penMarks, pencilMarks);
     });
