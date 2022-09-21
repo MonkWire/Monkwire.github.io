@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const description = document.querySelector("#description");
     const hideAndShowButton = document.querySelector("#hide-button");
     hideAndShowButton.addEventListener("click", (e) => {
-        if (description.style.display === 'none') {
-            description.style.display = "inline-block";
-            hideAndShowButton.innerText = "Hide";
-        } else {
+        if (description.style.display === 'inline-block') {
             description.style.display = "none";
             hideAndShowButton.innerText = "Instructions";
+        } else {
+            description.style.display = "inline-block";
+            hideAndShowButton.innerText = "Hide";
         };
     });
 

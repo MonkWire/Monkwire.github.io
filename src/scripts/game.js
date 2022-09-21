@@ -163,8 +163,6 @@ export class Game {
             };
             sumErrors.push(this.checkGroup(group))
         };
-        console.log('sumErrors: ', sumErrors);
-        console.log('sumMaps: ', this.sumMaps);
 
         let remappedErrors = [];
 
@@ -178,7 +176,6 @@ export class Game {
             };
         };
 
-        console.log('remappedErrors: ', remappedErrors);
         return remappedErrors;
     };
 
