@@ -7,7 +7,8 @@ export class CanvasBoard {
         this.sumClues = [];
         this.walls = [];
         this.colors = [];
-        this.theme = 'none';
+        this.selectColor = '#d9d3c9';
+        this.theme = 'greyscale';
     };
 
     update(ctx, selectedCell, penMarks, pencilMarks, errors) {
@@ -103,7 +104,7 @@ export class CanvasBoard {
             for (let j = 0; j < this.boardSize; j++) {
                 if (currIndex === cellNumber) {
                     ctx.rect(this.gridHeight / 9 * j, this.gridWidth / 9 * i, this.gridHeight / 9, this.gridWidth / 9);
-                    ctx.fillStyle = "#d9d3c9";
+                    ctx.fillStyle = this.selectColor;
                     ctx.fill();
                 } else if (currIndex > cellNumber) {
                     break;
@@ -236,7 +237,7 @@ export class CanvasBoard {
             for (let j = 0; j < 9; j++) {
                 if (this.sumClues[currIndex] != 0) {
                     if (selectedCell != null && currIndex === selectedCell) {
-                        ctx.fillStyle = '#d9d3c9';
+                        ctx.fillStyle = this.selectColor;
                     } else {
                         ctx.fillStyle = this.colors[currIndex];
                     };
@@ -256,12 +257,18 @@ export class CanvasBoard {
 
         if (this.theme === 'none') {
             colors = ['white'];
+            this.selectColor = '#d9d3c9';
         } else if (this.theme === 'random') {
             for (let i = 0; i < 100; i++) {
                 colors.push(`rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`);
             };
+            this.selectColor = 'white';
         } else if (this.theme === 'pastel') {
             colors = ['#fbf8cc', '#fde4cf', '#ffcfd2', '#f1c0e8', '#cfbaf0', '#a3c4f3', '#90dbf4', '#8eecf5', '#98f5e1', '#b9fbc0'];
+            this.selectColor = 'white';
+        } else if (this.theme === 'greyscale') {
+            this.selectColor = 'white';
+            colors = ['#f8f9fa', '#e9ecef', '#dee2e6', '#ced4da', '#adb5bd', '#B8B5BA', '#AEABB0', '#E1DFE1', '#C2C0C4', '#D7D5D7'];
         }
 
         let cellColors = new Array(81).fill(0);
