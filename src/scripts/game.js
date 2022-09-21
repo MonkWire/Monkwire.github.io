@@ -2,7 +2,7 @@ export class Game {
     constructor(sumGroups, gridSize=81) {
         this.gridSize = gridSize;
         this.penMarks = new Array(gridSize).fill(0);
-        this.pencilMarks = new Array(gridSize).fill(-1);
+        this.pencilMarks = [];
         this.errors = new Array(gridSize).fill(false);
         this.sumGroups = sumGroups;
         this.rowMaps = [];
@@ -10,7 +10,9 @@ export class Game {
         this.sqrMaps = [];
         this.sumMaps = [];
         this.getMaps();
+        this.clearPencilMarks();
     };
+
 
     getMaps() {
         if (this.rowMaps.length === 0) {
@@ -71,8 +73,6 @@ export class Game {
         };
 
         if (this.sumMaps.length === 0) {
-            console.log('in sumMaps')
-            console.log(this.sumGroups[0].cells)
             this.sumMaps = new Array(this.gridSize).fill(0);
             let currIndex = 0;
             for (let group of this.sumGroups) {
@@ -158,7 +158,7 @@ export class Game {
 
     clearPencilMarks() {
         this.pencilMarks = [];
-        for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
+        for (let i = 0; i < this.gridSize; i++) {
             this.pencilMarks.push(new Array(Math.sqrt(this.gridSize)).fill(-1));
         };
     };

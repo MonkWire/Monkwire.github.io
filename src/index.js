@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const description = document.querySelector("#description");
     const hideAndShowButton = document.querySelector("#hide-button");
     hideAndShowButton.addEventListener("click", (e) => {
-        console.log(e)
         if (description.style.display === 'none') {
             description.style.display = "inline-block";
             hideAndShowButton.innerText = "Hide";
@@ -15,6 +14,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
             hideAndShowButton.innerText = "Instructions";
         };
     });
+
+
 
     
 
@@ -29,9 +30,16 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const resetButton = document.querySelector("#reset-button");
 
     let selectedCell = 0;
-    let pencilMarks = sampleInputs.samplePencilMarks;
     game.checkErrors();
-    board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
+    board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+
+
+    const themeSelect = document.querySelector("#theme-select");
+    themeSelect.addEventListener("change", (e) => {
+        board.theme = themeSelect.value;
+        board.getColors();
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+    })
 
     resetButton.addEventListener("click", () => {
         game.clearPenMarks();
@@ -47,7 +55,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
         selectedCell = board.getCellNumber(x, y);
 
         game.checkErrors();
-        board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
     });
 
     document.addEventListener("keydown", (e) => {
@@ -62,7 +70,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
             } else if (e.key === 'Backspace') {
                 game.penMarks[selectedCell] = 0;
                 for (let i = 0; i < 9; i++) {
-                    pencilMarks[selectedCell][i] = -1;
+                    game.pencilMarks[selectedCell][i] = -1;
                 }
             } else if (e.key === 'ArrowLeft') {
                 if (selectedCell % 9 != 0) {
@@ -82,14 +90,14 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 };
             } else if (['!', '@', '#', '$', '%', '^', '&', '*', '('].includes(e.key)) {
                 const shiftMaps = {['!']: 1, ['@']: 2, ['#']: 3, ['$']: 4, ['%']: 5, ['^']: 6, ['&']: 7, ['*']: 8, ['(']: 9 };
-                if (pencilMarks[selectedCell][shiftMaps[e.key] - 1] === -1) {
-                    pencilMarks[selectedCell][shiftMaps[e.key] -1] = shiftMaps[e.key] - 1;
+                if (game.pencilMarks[selectedCell][shiftMaps[e.key] - 1] === -1) {
+                    game.pencilMarks[selectedCell][shiftMaps[e.key] -1] = shiftMaps[e.key] - 1;
                 } else {
-                    pencilMarks[selectedCell][shiftMaps[e.key] - 1] = -1;
+                    game.pencilMarks[selectedCell][shiftMaps[e.key] - 1] = -1;
                 };
             };
         };
         game.checkErrors();
-        board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
     });
 });

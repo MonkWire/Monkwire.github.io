@@ -6,10 +6,13 @@ export class CanvasBoard {
         this.sumGroups = sumGroups;
         this.sumClues = [];
         this.walls = [];
+        this.colors = [];
+        this.theme = 'none';
     };
 
     update(ctx, selectedCell, penMarks, pencilMarks, errors) {
         this.drawBackground(ctx);
+        this.drawColors(ctx);
         if (selectedCell != null) {
             this.highlightSelectedCell(ctx, selectedCell);
         };
@@ -235,7 +238,7 @@ export class CanvasBoard {
                     if (selectedCell != null && currIndex === selectedCell) {
                         ctx.fillStyle = '#d9d3c9';
                     } else {
-                        ctx.fillStyle = 'white';
+                        ctx.fillStyle = this.colors[currIndex];
                     };
 
                     ctx.fillRect((this.gridWidth / 9) * j, ((this.gridHeight / 9) * i), 23, 20);
@@ -247,4 +250,46 @@ export class CanvasBoard {
             };
         };
     };
+
+    getColors() {
+        let colors = [];
+
+        if (this.theme === 'none') {
+            colors = ['white'];
+        } else if (this.theme === 'random') {
+            for (let i = 0; i < 100; i++) {
+                colors.push(`rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`);
+            };
+        } else if (this.theme === 'pastel') {
+            colors = ['#fbf8cc', '#fde4cf', '#ffcfd2', '#f1c0e8', '#cfbaf0', '#a3c4f3', '#90dbf4', '#8eecf5', '#98f5e1', '#b9fbc0'];
+        }
+
+        let cellColors = new Array(81).fill(0);
+
+        for (let i = 0; i < this.sumGroups.length; i++) {
+            // let color = 'white'
+            let color = colors[Math.floor(Math.random() * colors.length)];
+            // let color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+            for (let j = 0; j < this.sumGroups[i].cells.length; j++) {
+                cellColors[this.sumGroups[i].cells[j]] = color;
+            };
+        };
+        this.colors = cellColors;
+    };
+
+
+    drawColors(ctx) {
+        if (this.colors.length === 0) {
+            this.getColors();
+        }
+
+        let currIndex = 0;
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                ctx.fillStyle = this.colors[currIndex];
+                ctx.fillRect(((this.gridWidth / 9) * j), ((this.gridHeight / 9) * i), this.gridHeight / 9, this.gridWidth / 9);
+                currIndex++;
+            }
+        }
+    }
 };

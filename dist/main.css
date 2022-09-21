@@ -53,3 +53,18 @@ ul {
     width: 90%;
   }
 }
+#menus {
+  display: flex;
+  margin: auto;
+  width: 600px;
+  justify-content: space-around;
+  justify-items: center;
+}
+
+#reset-button {
+  margin-bottom: 0px;
+}
+
+#menus select {
+  border: none;
+}
