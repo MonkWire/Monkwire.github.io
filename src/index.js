@@ -23,14 +23,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
     const sampleInputs = new SampleInputs();
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
-    const game = new Game(null);
+    const game = new Game(sampleInputs.sampleGroups);
+
 
     let selectedCell = 0;
-    let penMarks = game.penMarks;
     let pencilMarks = sampleInputs.samplePencilMarks;
+    game.penMarks = sampleInputs.penErrors;
+    game.getColumnErrors();
+    game.getMaps();
+    game.penMarks = game.penMarks;
 
     game.checkErrors();
-    board.update(ctx, selectedCell, penMarks, pencilMarks, game.errors);
+    board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
 
     canvas.addEventListener("click", (e) => {
         let y = e.clientY - e.target.getBoundingClientRect().top;
@@ -38,20 +42,20 @@ document.addEventListener("DOMContentLoaded", ()=> {
         selectedCell = board.getCellNumber(x, y);
 
         game.checkErrors();
-        board.update(ctx, selectedCell, penMarks, pencilMarks, game.errors);
+        board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
     });
 
     document.addEventListener("keydown", (e) => {
         if (selectedCell != null) {
             if (!isNaN(parseInt(e.key))) {
-                if (parseInt(e.key) === penMarks[selectedCell]) {
-                    penMarks[selectedCell] = 0;
+                if (parseInt(e.key) === game.penMarks[selectedCell]) {
+                    game.penMarks[selectedCell] = 0;
 
                 } else {
-                    penMarks[selectedCell] = parseInt(e.key);
+                    game.penMarks[selectedCell] = parseInt(e.key);
                 };
             } else if (e.key === 'Backspace') {
-                penMarks[selectedCell] = 0;
+                game.penMarks[selectedCell] = 0;
                 for (let i = 0; i < 9; i++) {
                     pencilMarks[selectedCell][i] = -1;
                 }
@@ -81,6 +85,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
             };
         };
         game.checkErrors();
-        board.update(ctx, selectedCell, penMarks, pencilMarks, game.errors);
+        board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
     });
 });
