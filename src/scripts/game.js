@@ -50,7 +50,7 @@ export class Game {
                     };
                 } else if (this.colMaps[currIndex] < 6)  {
                     if (this.rowMaps[currIndex] < 3) {
-                        this.sqrMaps[currIndex] = 0;
+                        this.sqrMaps[currIndex] = 1;
                     } else if (this.rowMaps[currIndex] < 6) {
                         this.sqrMaps[currIndex] = 4;
                     } else {
@@ -84,9 +84,20 @@ export class Game {
     };
 
     checkErrors() {
-        this.errors = this.getRowErrors();
-        this.getColumnErrors();
-    }
+        let rowErrors = this.getGroupErrors(this.rowMaps);
+        let colErrors = this.getGroupErrors(this.colMaps);
+        let sqrErrors = this.getGroupErrors(this.sqrMaps);
+        // let sumErrors = this.getGroupErrors(this.sumMaps);
+
+        this.errors = [];
+        for (let i = 0; i < this.gridSize; i++) {
+            if (rowErrors[i] || colErrors[i] || sqrErrors[i]) {
+                this.errors.push(true);
+            } else {
+                this.errors.push(false);
+            };
+        };
+    };
 
     checkGroup(group) {
         let counts = {};
@@ -114,75 +125,30 @@ export class Game {
         return groupErrors;
     };
 
-    getRowErrors() {
-        let rowErrors = [];
+
+    getGroupErrors(groupMap) {
+        let groupErrors = [];
         for (let i = 0; i < 9; i++) {
-            let row = [];
+            let group = [];
             for (let j = 0; j < 81; j++) {
-                if (this.rowMaps[j] === i) {
-                    row.push(this.penMarks[j]);
+                if (groupMap[j] === i) {
+                    group.push(this.penMarks[j]);
                 };
             };
-            rowErrors = rowErrors.concat(this.checkGroup(row));
+            groupErrors = groupErrors.concat(this.checkGroup(group));
         };
-        return rowErrors;
-    };
 
+        let remappedErrors = [];
 
+        for (let i = 0; i < 9; i++) {
+            let subA = [];
+            remappedErrors.push(subA);
+        };
 
-    //     let rowErrors = [];
-
-    //     let currIndex = 0;
-    //     for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
-    //         let row = [];
-    //         for (let j = 0; j < Math.sqrt(this.gridSize); j++) {
-    //             row.push(this.penMarks[currIndex]);
-    //             currIndex++;
-    //         };
-
-    //         let currRowErrors = this.checkGroup(row);
-    //         for (let j = 0; j < currRowErrors.length; j++) {
-    //             rowErrors.push(currRowErrors[j])
-    //         }
-    //     };
-
-    //     return rowErrors;
-    // };
-
-    getColumns() {
-
-    }
-
-
-    getColumnErrors() {
-        // let colErrors = [];
-
-
-        // let cols = [];
-        // for (let i = 0; i < 9; i++) {
-        //     let subArr = [];
-        //     for (let j = 0; j < 9; j++) {
-        //         subArr.push(0)
-        //     };
-        //     cols.push(subArr);
-        // };
-        // console.log(cols);
-
-
-        // let currIndex = 0;
-        // while(currIndex < 81) {
-        //     cols[currIndex % 9][Math.floor(currIndex / 9)] = this.penMarks[currIndex];
-        //     currIndex++;
-        // }
-
-        // for (let c of cols) {
-        //     colErrors.push(this.checkGroup(c));
-        // }
-
-
-        
-        
-        // console.log(colErrors);
+        for (let i = 0; i < groupErrors.length; i++) {
+            remappedErrors[groupMap[i]].push(groupErrors[i]);
+        }
+        return remappedErrors.flat();
     };
 };
 

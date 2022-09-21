@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
         };
     });
 
+    
+
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext('2d');
     canvas.height = 600;
@@ -24,14 +26,19 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const sampleInputs = new SampleInputs();
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
     const game = new Game(sampleInputs.sampleGroups);
+    const resetButton = document.querySelector("#reset-button");
+    resetButton.addEventListener("click", () => {
+        game.penMarks = sampleInputs.blankPenMarks;
+        game.pencilMarks = sampleInputs.samplePencilMarks;
+        game.checkErrors();
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+    });
 
 
     let selectedCell = 0;
     let pencilMarks = sampleInputs.samplePencilMarks;
-    game.penMarks = sampleInputs.penErrors;
-    game.getColumnErrors();
     game.getMaps();
-    game.penMarks = game.penMarks;
+    game.penMarks = game.colMaps;
 
     game.checkErrors();
     board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
