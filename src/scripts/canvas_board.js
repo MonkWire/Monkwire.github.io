@@ -145,7 +145,6 @@ export class CanvasBoard {
             walls.push({ n: false, e: false, s: false, w: false });
         }
 
-        // const walls = new Array(81).fill().map((x) => ({n: false, e: false, s: false, w: false});
 
         for (let i = 0; i < this.sumGroups.length; i++) {
             for (let j = 0; j < this.sumGroups[i].cells.length; j++) {

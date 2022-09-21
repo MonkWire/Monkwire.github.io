@@ -150,5 +150,16 @@ export class Game {
         }
         return remappedErrors.flat();
     };
+
+    clearPenMarks() {
+        this.penMarks = new Array(this.gridSize).fill(0);
+    }
+
+    clearPencilMarks() {
+        this.pencilMarks = [];
+        for (let i = 0; i < Math.sqrt(this.gridSize); i++) {
+            this.pencilMarks.push(new Array(Math.sqrt(this.gridSize)).fill(-1));
+        };
+    };
 };
 
