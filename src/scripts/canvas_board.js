@@ -238,10 +238,10 @@ export class CanvasBoard {
                         ctx.fillStyle = 'white';
                     };
 
-                    ctx.fillRect((this.gridWidth / 9) * j, ((this.gridHeight / 9) * i), 17, 17);
-                    ctx.font = '10px serif';
+                    ctx.fillRect((this.gridWidth / 9) * j, ((this.gridHeight / 9) * i), 23, 20);
+                    ctx.font = '17px serif';
                     ctx.fillStyle = 'rgb(189, 17, 17)';
-                    ctx.fillText(`${this.sumClues[currIndex]}`, ((this.gridWidth / 9) * j) + 5, ((this.gridHeight / 9) * i) + 15);
+                    ctx.fillText(`${this.sumClues[currIndex]}`, ((this.gridWidth / 9) * j) + 5, ((this.gridHeight / 9) * i) + 17);
                 };
                 currIndex++;
             };

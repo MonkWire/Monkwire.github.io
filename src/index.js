@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
     let selectedCell = 0;
     let pencilMarks = sampleInputs.samplePencilMarks;
-    game.getMaps();
     game.checkErrors();
     board.update(ctx, selectedCell, game.penMarks, pencilMarks, game.errors);
 

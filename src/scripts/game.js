@@ -9,6 +9,7 @@ export class Game {
         this.colMaps = [];
         this.sqrMaps = [];
         this.sumMaps = [];
+        this.getMaps();
     };
 
     getMaps() {
