@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
     const game = new Game(sampleInputs.sampleGroups);
     const resetButton = document.querySelector("#reset-button");
-    game.penMarks = game.sumMaps;
 
     let selectedCell = 0;
     game.checkErrors();
