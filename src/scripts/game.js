@@ -88,11 +88,11 @@ export class Game {
         let rowErrors = this.getGroupErrors(this.rowMaps);
         let colErrors = this.getGroupErrors(this.colMaps);
         let sqrErrors = this.getGroupErrors(this.sqrMaps);
-        // let sumErrors = this.getGroupErrors(this.sumMaps);
+        let sumErrors = this.getSumErrors();
 
         this.errors = [];
         for (let i = 0; i < this.gridSize; i++) {
-            if (rowErrors[i] || colErrors[i] || sqrErrors[i]) {
+            if (rowErrors[i] || colErrors[i] || sqrErrors[i] || sumErrors[i]) {
                 this.errors.push(true);
             } else {
                 this.errors.push(false);
@@ -151,10 +151,40 @@ export class Game {
         }
         return remappedErrors.flat();
     };
+    
+    getSumErrors() {
+        let sumErrors = [];
+        for (let i = 0; i < this.sumGroups.length; i++) {
+            let group = [];
+            for (let j = 0; j < this.sumMaps.length; j++) {
+                if (this.sumMaps[j] === i) {
+                    group.push(this.penMarks[j]);
+                };
+            };
+            sumErrors.push(this.checkGroup(group))
+        };
+        console.log('sumErrors: ', sumErrors);
+        console.log('sumMaps: ', this.sumMaps);
+
+        let remappedErrors = [];
+
+        for (let i = 0; i < 81; i++) {
+            remappedErrors.push(0);
+        };
+
+        for (let i = 0; i < sumErrors.length; i++) {
+            for (let j = 0; j < sumErrors[i].length; j++) {
+                remappedErrors[this.sumGroups[i].cells[j]] = sumErrors[i][j];
+            };
+        };
+
+        console.log('remappedErrors: ', remappedErrors);
+        return remappedErrors;
+    };
 
     clearPenMarks() {
         this.penMarks = new Array(this.gridSize).fill(0);
-    }
+    };
 
     clearPencilMarks() {
         this.pencilMarks = [];

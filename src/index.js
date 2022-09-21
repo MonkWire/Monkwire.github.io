@@ -15,10 +15,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
         };
     });
 
-
-
-    
-
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext('2d');
     canvas.height = 600;
@@ -28,6 +24,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
     const game = new Game(sampleInputs.sampleGroups);
     const resetButton = document.querySelector("#reset-button");
+    game.penMarks = game.sumMaps;
 
     let selectedCell = 0;
     game.checkErrors();
