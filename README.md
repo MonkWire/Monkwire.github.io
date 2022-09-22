@@ -19,7 +19,7 @@ To remove a pencil or pen marking, re-input that marking while the appropriate c
 This application is was built using [Node.js](https://nodejs.org/en/) and [Webpack](https://webpack.js.org/).
 
 ## Technical Implementation
-The board is rendered using a canvas element, and updated anytime a 'click' or 'keydown' event listener is fired. The code in this project is designed to be scalable. A CanvasBoard class is responsible for rending all graphics. All CanvasBoard functions are designed to interact with one-dimensional arrays that are the size of the puzzle grid. Because the CanvasBoard is always aware of the dimensions of the canvas element and the number of cells per row/column, it is possible to mathmatically determine the location of all elements, regardless of puzzle or canvas size.
+The board is rendered using a canvas element, and updated anytime a 'click' or 'keydown' event listener is fired. The code in this project is designed to be scalable. A CanvasBoard class is responsible for rendering all graphics. All CanvasBoard functions are designed to interact with one-dimensional arrays that are the size of the puzzle grid. Because the CanvasBoard is always aware of the dimensions of the canvas element and the number of cells per row/column, it is possible to mathmatically determine the location of all elements, regardless of puzzle or canvas size.
 
 ![CanvasBoard update code](/assets/canvasUpdateCode.png)
 
