@@ -5,19 +5,14 @@
 
 **Killer Sudoku** is a variant of Sudoku that introduces the additional constraint of sum groups. A sum group is a group of non-repeating cells which add up to a specified sum. These sum groups are represented visually with an overlay of dashed lines and red sums. Complete the puzzle by fully filling the board with integers from 1 to 9, such that all rows, columns, squares, and sum groups are populated with non-repeating numbers.
 
-## Gameplay and Usage
-A live link to the player can be found [here](https://monkwire.github.io).
+## Gameplay
+A live link to the player can be found [here](https://monkwire3.github.io).
 Select a cell with the mouse, or by using the arrow keys; the selected cell will be highlighted. You can enter a pen marking by first selecting the cell you wish to mark, then using the keyboard to input a number. 
-![Example of a pen marking](/assets/penMarkExample.png)
-
 Pencil markings are added in the same way, except with the Shift key depressed. 
-![Example of a pencil marking](/assets/pencilMarkExample.png)
-
 Error checking is only applied to pen marks, as pencil marks are completely ignored by the game. Each row, column, square, and sumGroup is checked for repeating numbers. Cells that violate the uniqueness constraint are highlighted in red.
-![Example of various types of errors](/assets/errorsExample.png)
-
-
 To remove a pencil or pen marking, re-input that marking while the appropriate cell is selected. Alternatively, press the Backspace key to remove all pencil and pen markings from the selected cell.
+
+![Example Puzzle](/assets/PuzzleGraphic.png)
 
 
 ## Technologies
@@ -25,8 +20,14 @@ This application is was built using [Node.js](https://nodejs.org/en/) and [Webpa
 
 ## Technical Implementation
 The board is rendered using a canvas element, and updated anytime a 'click' or 'keydown' event listener is fired. The code in this project is designed to be scalable. A CanvasBoard class is responsible for rending all graphics. All CanvasBoard functions are designed to interact with non-nested arrays that are the size of the puzzle grid. Because the CanvasBoard is always aware of the dimensions of the canvas element and the number of cells per row/column, it is possible to mathmatically determine the location of all elements, regardless of puzzle or canvas size.
+
+![CanvasBoard update code](/assets/canvasUpdateCode.png)
+
 A Game class manages all user marks and error checking. The game Class conveys all errors to the Canvas element in the form of one non-nested array of booleans, with a length equal to the number of cells in on the board. 
 
+![Game error checking code](/assets/canvasUpdateCode.png)
 
+## Future Updates
+Currently the th
 The puzzles are not auto-generated. Credit for puzzle design goes to [Krazydad.com](https://krazydad.com/killersudoku/).
 
