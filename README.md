@@ -10,12 +10,12 @@ Select a cell with the mouse, or by using the arrow keys; the selected cell will
 
 
 ## Technologies
-This application is was built using [Node.js][https://nodejs.org/en/] and [Webpack][https://webpack.js.org/].
+This application is was built using [Node.js](https://nodejs.org/en/) and [Webpack](https://webpack.js.org/).
 
 ## Technical Implementation
 The board is rendered using a canvas element, and updated anytime a 'click' or 'keydown' event listener is fired. The code in this project is designed to be scalable. A CanvasBoard class is responsible for rending all graphics. All CanvasBoard functions are designed to interact with non-nested arrays that are the size of the puzzle grid. Because the CanvasBoard is always aware of the dimensions of the canvas element and the number of cells per row/column, it is possible to mathmatically determine the location of all elements, regardless of puzzle or canvas size.
 A Game class manages all user marks and error checking. The game Class conveys all errors to the Canvas element in the form of one non-nested array of booleans, with a length equal to the number of cells in on the board. 
 
 
-The puzzles are not auto-generated. Credit for puzzle design goes to [Krazydad.com][https://krazydad.com/killersudoku/].
+The puzzles are not auto-generated. Credit for puzzle design goes to [Krazydad.com](https://krazydad.com/killersudoku/).
 
