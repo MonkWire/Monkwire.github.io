@@ -5,13 +5,11 @@ export class SampleInputs {
         this.blankPenMarks = new Array(this.gridSize).fill(0);
         this.samplePencilMarks = []
         for (let i = 0; i < this.gridSize; i++) {
-            let cell = [];
-            for (let j = 0; j < 9; j++) {
-                cell.push(-1);
-            }
+            let cell = new Array(9).fill(-1);
             this.samplePencilMarks.push(cell);
         };
-        this.sampleGroups = [{sum: 11, cells: [0, 9, 10, 19]},
+        this.sampleGroups = [
+        {sum: 11, cells: [0, 9, 10, 19]},
         {sum: 25, cells: [1, 2, 3, 12]},
         {sum: 14, cells: [4, 13]},
         {sum: 9, cells: [5, 6]},
@@ -42,6 +40,10 @@ export class SampleInputs {
         {sum: 15, cells: [68, 69]},
         {sum: 11, cells: [77, 78]},
         {sum: 12, cells: [79, 80]}];
+
+        this.samplePuzzleTwo = [
+            {sum: 16, cells: []}
+        ]
 
 
         // Error checking

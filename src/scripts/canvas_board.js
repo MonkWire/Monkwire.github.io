@@ -8,7 +8,7 @@ export class CanvasBoard {
         this.walls = [];
         this.colors = [];
         this.selectColor = '#d9d3c9';
-        this.theme = 'greyscale';
+        this.theme = 'none';
     };
 
     update(ctx, selectedCell, penMarks, pencilMarks, errors) {
@@ -30,14 +30,9 @@ export class CanvasBoard {
     }
 
     drawGridLines(ctx) {
-        ctx.beginPath();
-        ctx.rect(0, 0, this.gridWidth, this.gridHeight);
         ctx.setLineDash([]);
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 8;
-        ctx.stroke();
 
-        for (let i = 0; i < this.boardSize; i++) {
+        for (let i = 1; i < this.boardSize; i++) {
             ctx.beginPath();
             ctx.moveTo(0, (this.gridHeight / this.boardSize) * i);
             ctx.lineTo(this.gridWidth, (this.gridHeight / this.boardSize) * i);
@@ -86,7 +81,7 @@ export class CanvasBoard {
                             if (pencilMarkings[currIndex][pencilIndex] != -1) {
                                 ctx.font = '15px serif';
                                 ctx.fillStyle = "black";
-                                ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * j + (r * 20) + 10, (this.gridHeight / 9) * i + (c * 20) + 20);
+                                ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * j + (r * 15) + 15, (this.gridHeight / 9) * i + (c * 15) + 25);
                             };
                             pencilIndex++;
                         };
@@ -183,41 +178,29 @@ export class CanvasBoard {
         let currIndex = 0;
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
+                ctx.beginPath();
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = 'grey';
                 if (this.walls[currIndex].n) {
-                    ctx.beginPath();
-                    ctx.setLineDash([5, 5]);
-                    ctx.strokeStyle = 'grey';
                     ctx.moveTo((this.gridWidth / 9 * j) + 7, (this.gridHeight / 9 * i) + 7)
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridWidth / 9) * i) + (7)))
-                    ctx.stroke();
-                };
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridWidth / 9) * i) + 7))
+                }
 
                 if (this.walls[currIndex].e) {
-                    ctx.beginPath();
-                    ctx.setLineDash([5, 5]);
-                    ctx.strokeStyle = 'grey';
                     ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i) + 7)
                     ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
-                    ctx.stroke();
-                };
+                }
 
                 if (this.walls[currIndex].s) {
-                    ctx.beginPath();
-                    ctx.setLineDash([5, 5]);
-                    ctx.strokeStyle = 'grey';
                     ctx.moveTo((this.gridWidth / 9 * j) + 7, (this.gridHeight / 9 * i) + ((this.gridHeight / 9) - 7))
                     ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)) - 7, (((this.gridHeight / 9) * i) + (this.gridHeight / 9) - 7))
-                    ctx.stroke();
-                };
+                }
 
                 if (this.walls[currIndex].w) {
-                    ctx.beginPath();
-                    ctx.setLineDash([5, 5]);
-                    ctx.strokeStyle = 'grey';
                     ctx.moveTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i) + 7)
                     ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
-                    ctx.stroke();
-                };
+                }
+                ctx.stroke();
                 currIndex++;
             };
         };
@@ -296,7 +279,63 @@ export class CanvasBoard {
                 ctx.fillStyle = this.colors[currIndex];
                 ctx.fillRect(((this.gridWidth / 9) * j), ((this.gridHeight / 9) * i), this.gridHeight / 9, this.gridWidth / 9);
                 currIndex++;
-            }
-        }
+            };
+        };
+    };
+
+    getCorners() {
+        if (this.walls.length === 0) {
+            this.getWalls();
+        };
+
+        let corners = [];
+
+        for (let i = 0; i < 81; i++) {
+            let corner = {ne: false, se: false, sw: false, nw: false};
+            adjacent = this.getAdjacentCells(i);
+
+            if (0 <= this.walls.n < 81 && !this.walls[adjacent.n].s) {
+                if (this.walls[adjacent.n].e) {
+                    if (0 <= this.walls.e < 81 && !this.walls[adjacent.e].w) {
+                        if (this.walls[adjacent.e].n) {
+                            corners.ne = true;
+                        };
+                    };
+                };
+            };
+            if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
+                if (this.walls[adjacent.s].e) {
+                    if (0 <= this.walls.e < 81 && !this.walls[adjacent.e].w) {
+                        if (this.walls[adjacent.e].s) {
+                            corners.se = true;
+                        };
+                    };
+                };
+            };
+            if (0 <= this.walls.n < 81 && !this.walls[adjacent.n].s) {
+                if (this.walls[adjacent.n].w) {
+                    if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
+                        if (this.walls[adjacent.w].n) {
+                            corners.nw = true;
+                        };
+                    };
+                };
+            };
+            if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
+                if (this.walls[adjacent.s].w) {
+                    if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
+                        if (this.walls[adjacent.w].s) {
+                            corners.sw = true;
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+    drawCorners(ctx) {
+        console.log('drawCorners func')
+        console.log('corners: ', this.corners);
+
     }
 };

@@ -10,6 +10,10 @@ h1 {
   color: rgb(189, 17, 17);
 }
 
+canvas {
+  border: 5px solid black;
+}
+
 canvas:hover {
   cursor: pointer;
 }
