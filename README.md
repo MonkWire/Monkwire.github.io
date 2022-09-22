@@ -28,6 +28,5 @@ A Game class manages all user marks and error checking. The game Class conveys a
 ![Game error checking code](/assets/canvasUpdateCode.png)
 
 ## Future Updates
-Currently the th
-The puzzles are not auto-generated. Credit for puzzle design goes to [Krazydad.com](https://krazydad.com/killersudoku/).
+Currently the puzzles are not auto-generated. Future updates will feature a functional solver and generator. The preloaded puzzles are from [Krazydad.com](https://krazydad.com/killersudoku/).
 
