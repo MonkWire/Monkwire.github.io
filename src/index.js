@@ -15,19 +15,41 @@ document.addEventListener("DOMContentLoaded", ()=> {
         };
     });
 
+
+
+
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext('2d');
     canvas.height = 600;
     canvas.width = 600;
 
     const sampleInputs = new SampleInputs();
-    const board = new CanvasBoard(9, 600, 600, sampleInputs.sampleGroups);
-    const game = new Game(sampleInputs.sampleGroups);
+    let board = new CanvasBoard(9, 600, 600, sampleInputs.puzzle1);
+    let game = new Game(sampleInputs.puzzle1);
     const resetButton = document.querySelector("#reset-button");
 
     let selectedCell = 0;
     game.checkErrors();
     board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+
+    const puzzleSelector = document.querySelector("#puzzle-select");
+    puzzleSelector.addEventListener("change", (e) => {
+        console.log(e);
+        console.log(puzzleSelector.value)
+
+        if (puzzleSelector.value === 'puzzle1') {
+            board = new CanvasBoard(9, 600, 600, sampleInputs.puzzle1);
+            game = new Game(sampleInputs.puzzle1);
+            
+        } else {
+            board = new CanvasBoard(9, 600, 600, sampleInputs.puzzle2);
+            game = new Game(sampleInputs.puzzle2); 
+        } 
+        game.clearPenMarks();
+        game.clearPencilMarks();
+        game.checkErrors();
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+    })
 
 
     const themeSelect = document.querySelector("#theme-select");
