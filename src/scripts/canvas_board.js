@@ -253,16 +253,24 @@ export class CanvasBoard {
             this.selectColor = 'white';
         } else if (this.theme === 'greyscale') {
             this.selectColor = 'white';
-            colors = ['#f8f9fa', '#e9ecef', '#dee2e6', '#ced4da', '#adb5bd', '#B8B5BA', '#AEABB0', '#E1DFE1', '#C2C0C4', '#D7D5D7'];
+            colors = ['#f8f9fa', '#C2C0C4', '#dee2e6', '#ced4da', '#adb5bd', '#B8B5BA', '#AEABB0', '#E1DFE1', '#e9ecef', '#D7D5D7'];
         }
 
+        let colIndex = 0;
         let cellColors = new Array(81).fill(0);
 
         for (let i = 0; i < this.sumGroups.length; i++) {
-            let color = colors[Math.floor(Math.random() * colors.length)];
+            // let color = colors[Math.floor(Math.random() * colors.length)];
+            let color = colors[colIndex];
             for (let j = 0; j < this.sumGroups[i].cells.length; j++) {
                 cellColors[this.sumGroups[i].cells[j]] = color;
             };
+
+            if (colIndex + 1 === colors.length) {
+                colIndex = 0;
+            } else {
+                colIndex++;
+            }
         };
         this.colors = cellColors;
     };
