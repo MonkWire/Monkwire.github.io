@@ -6,6 +6,7 @@ export class CanvasBoard {
         this.sumGroups = sumGroups;
         this.sumClues = [];
         this.walls = [];
+        this.corners = [];
         this.colors = [];
         this.selectColor = '#d9d3c9';
         this.theme = 'none';
@@ -18,6 +19,7 @@ export class CanvasBoard {
             this.highlightSelectedCell(ctx, selectedCell);
         };
         this.drawSumsOvelay(ctx);
+        this.drawCorners(ctx);
         this.drawSumClues(ctx, selectedCell);
         this.drawGridLines(ctx);
         this.drawPenMarks(ctx, penMarks, errors);
@@ -257,9 +259,7 @@ export class CanvasBoard {
         let cellColors = new Array(81).fill(0);
 
         for (let i = 0; i < this.sumGroups.length; i++) {
-            // let color = 'white'
             let color = colors[Math.floor(Math.random() * colors.length)];
-            // let color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
             for (let j = 0; j < this.sumGroups[i].cells.length; j++) {
                 cellColors[this.sumGroups[i].cells[j]] = color;
             };
@@ -291,51 +291,73 @@ export class CanvasBoard {
         let corners = [];
 
         for (let i = 0; i < 81; i++) {
-            let corner = {ne: false, se: false, sw: false, nw: false};
-            adjacent = this.getAdjacentCells(i);
+            let corner = { ne: false, se: false, sw: false, nw: false };
+            let adjacent = this.getAdjacentCells(i);
 
-            if (0 <= this.walls.n < 81 && !this.walls[adjacent.n].s) {
-                if (this.walls[adjacent.n].e) {
-                    if (0 <= this.walls.e < 81 && !this.walls[adjacent.e].w) {
-                        if (this.walls[adjacent.e].n) {
-                            corners.ne = true;
-                        };
-                    };
-                };
-            };
-            if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
-                if (this.walls[adjacent.s].e) {
-                    if (0 <= this.walls.e < 81 && !this.walls[adjacent.e].w) {
-                        if (this.walls[adjacent.e].s) {
-                            corners.se = true;
-                        };
-                    };
-                };
-            };
-            if (0 <= this.walls.n < 81 && !this.walls[adjacent.n].s) {
-                if (this.walls[adjacent.n].w) {
-                    if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
-                        if (this.walls[adjacent.w].n) {
-                            corners.nw = true;
-                        };
-                    };
-                };
-            };
-            if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
-                if (this.walls[adjacent.s].w) {
-                    if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
-                        if (this.walls[adjacent.w].s) {
-                            corners.sw = true;
-                        };
-                    };
-                };
-            };
+            console.log('adjacent: ', adjacent.n);
+            console.log('this.walls: ', this.walls)
+            if (0 <= adjacent.n && adjacent.n < 81) {
+                if (!this.walls[adjacent.n].s) {
+                    if (this.walls[adjacent.n].e) {
+                        if (0 <= adjacent.e < 81 && !this.walls[adjacent.e].w) {
+                            if (this.walls[adjacent.e].n) {
+                                corner.ne = true;
+                            }
+                        }
+                    }
+                }
+            }
+            // if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
+            //     if (this.walls[adjacent.s].e) {
+            //         if (0 <= this.walls.e < 81 && !this.walls[adjacent.e].w) {
+            //             if (this.walls[adjacent.e].s) {
+            //                 corner.se = true;
+            //             };
+            //         };
+            //     };
+            // };
+            // if (0 <= this.walls.n < 81 && !this.walls[adjacent.n].s) {
+            //     if (this.walls[adjacent.n].w) {
+            //         if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
+            //             if (this.walls[adjacent.w].n) {
+            //                 corner.nw = true;
+            //             };
+            //         };
+            //     };
+            // };
+            // if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
+            //     if (this.walls[adjacent.s].w) {
+            //         if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
+            //             if (this.walls[adjacent.w].s) {
+            //                 corner.sw = true;
+            //             };
+            //         };
+            //     };
+            // };
+            corners.push(corner);
         };
+        this.corners = corners;
     };
 
     drawCorners(ctx) {
+        if (this.corners.length === 0) {
+            this.getCorners();
+        }
         console.log('drawCorners func')
         console.log('corners: ', this.corners);
 
-    }
+        let currIndex = 0;
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (this.corners[currIndex].n) {
+                    console.log('drawing in cell: ', currIndex)
+                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + 7))
+                    ctx.stroke();
+                }
+
+            currIndex++;
+            }
+        }
+    };
 };
