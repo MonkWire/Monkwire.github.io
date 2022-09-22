@@ -1,12 +1,23 @@
-# JS_Project_killer_sudoku
+# Killer Sudoku Player
+
 ## About Sudoku
  Sudoku is a puzzle game typically played on a 9 x 9 board. A board can be broken into 9 rows, 9 columns, or 9 (3 x 3) squares, each containing 9 cells. A sudoku board is completed when every cell is filled such that no numbers are repeated within a square, column, or row.
 
 **Killer Sudoku** is a variant of Sudoku that introduces the additional constraint of sum groups. A sum group is a group of non-repeating cells which add up to a specified sum. These sum groups are represented visually with an overlay of dashed lines and red sums. Complete the puzzle by fully filling the board with integers from 1 to 9, such that all rows, columns, squares, and sum groups are populated with non-repeating numbers.
 
 ## Gameplay and Usage
-A live link to the player can be found [here][monkwire.github.io].
-Select a cell with the mouse, or by using the arrow keys; the selected cell will be highlighted. You can enter a pen marking by first selecting the cell you wish to mark, then using the keyboard to input a number. Pencil markings are added in the same way, except with the Shift key depressed. Error checking is only applied to pen marks, as pencil marks are completely ignored by the game. To remove a pencil or pen marking, re-input that marking while the appropriate cell is selected. Alternatively, press the Backspace key to remove all pencil and pen markings from the selected cell.
+A live link to the player can be found [here](monkwire.github.io).
+Select a cell with the mouse, or by using the arrow keys; the selected cell will be highlighted. You can enter a pen marking by first selecting the cell you wish to mark, then using the keyboard to input a number. 
+[Example of a pen marking](/assets/penMarkExample.png)
+
+Pencil markings are added in the same way, except with the Shift key depressed. 
+[Example of a pencil marking](/assets/pencilMarkExample.png)
+
+Error checking is only applied to pen marks, as pencil marks are completely ignored by the game. Each row, column, square, and sumGroup is checked for repeating numbers. Cells that violate the uniqueness constraint are highlighted in red.
+[Example of various types of errors](/assets/errorsExample.png)
+
+
+To remove a pencil or pen marking, re-input that marking while the appropriate cell is selected. Alternatively, press the Backspace key to remove all pencil and pen markings from the selected cell.
 
 
 ## Technologies
