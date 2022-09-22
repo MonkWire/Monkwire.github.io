@@ -23,7 +23,7 @@ The board is rendered using a canvas element, and updated anytime a 'click' or '
 
 ![CanvasBoard update code](/assets/canvasUpdateCode.png)
 
-A Game class manages all user marks and error checking. The game Class conveys all errors to the Canvas element in the form of a single one-dimensional array of booleans, with a length equal to the number of cells in on the board. 
+A Game class manages all user marks and error checking. The game Class conveys all errors to the Canvas element in the form of a single one-dimensional array of booleans, with a length equal to the number of cells on the board. 
 
 ![Game error checking code](/assets/checkErrorsCode.png)
 
