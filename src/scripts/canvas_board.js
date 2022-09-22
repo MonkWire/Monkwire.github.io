@@ -294,8 +294,6 @@ export class CanvasBoard {
             let corner = { ne: false, se: false, sw: false, nw: false };
             let adjacent = this.getAdjacentCells(i);
 
-            console.log('adjacent: ', adjacent.n);
-            console.log('this.walls: ', this.walls)
             if (0 <= adjacent.n && adjacent.n < 81) {
                 if (!this.walls[adjacent.n].s) {
                     if (this.walls[adjacent.n].e) {
@@ -307,33 +305,43 @@ export class CanvasBoard {
                     }
                 }
             }
-            // if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
-            //     if (this.walls[adjacent.s].e) {
-            //         if (0 <= this.walls.e < 81 && !this.walls[adjacent.e].w) {
-            //             if (this.walls[adjacent.e].s) {
-            //                 corner.se = true;
-            //             };
-            //         };
-            //     };
-            // };
-            // if (0 <= this.walls.n < 81 && !this.walls[adjacent.n].s) {
-            //     if (this.walls[adjacent.n].w) {
-            //         if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
-            //             if (this.walls[adjacent.w].n) {
-            //                 corner.nw = true;
-            //             };
-            //         };
-            //     };
-            // };
-            // if (0 <= this.walls.s < 81 && !this.walls[adjacent.s].n) {
-            //     if (this.walls[adjacent.s].w) {
-            //         if (0 <= this.walls.w < 81 && !this.walls[adjacent.w].e) {
-            //             if (this.walls[adjacent.w].s) {
-            //                 corner.sw = true;
-            //             };
-            //         };
-            //     };
-            // };
+            if (0 <= adjacent.s && adjacent.s < 81) {
+                if (!this.walls[adjacent.s].n) {
+                    if (this.walls[adjacent.s].e) {
+                        if (0 <= adjacent.e < 81 && !this.walls[adjacent.e].w) {
+                            if (this.walls[adjacent.e].s) {
+                                corner.se = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (0 <= adjacent.n && adjacent.n < 81) {
+                if (!this.walls[adjacent.n].s) {
+                    if (this.walls[adjacent.n].w) {
+                        if (0 <= adjacent.w < 81 && !this.walls[adjacent.w].e) {
+                            if (this.walls[adjacent.w].n) {
+                                corner.nw = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if (0 <= adjacent.s && adjacent.s < 81) {
+                if (!this.walls[adjacent.s].n) {
+                    if (0 <= adjacent.w && adjacent.w < 81) {
+                        if (this.walls[adjacent.s].w) {
+                            if (0 <= adjacent.w < 81 && !this.walls[adjacent.w].e) {
+                                if (this.walls[adjacent.w].s) {
+                                    corner.sw = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             corners.push(corner);
         };
         this.corners = corners;
@@ -343,20 +351,37 @@ export class CanvasBoard {
         if (this.corners.length === 0) {
             this.getCorners();
         }
-        console.log('drawCorners func')
-        console.log('corners: ', this.corners);
 
         let currIndex = 0;
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
-                if (this.corners[currIndex].n) {
-                    console.log('drawing in cell: ', currIndex)
-                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i))
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + 7))
+                if (this.corners[currIndex].ne) {
+                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + 7));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)), (((this.gridWidth / 9) * i) + 7));
+                    ctx.stroke();
+                }
+                if (this.corners[currIndex].se) {
+                    ctx.moveTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9))));
+                    ctx.stroke();
+                }
+                if (this.corners[currIndex].nw) {
+                    ctx.moveTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i))
+                    ctx.lineTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i) + 7)
+                    ctx.lineTo((this.gridWidth / 9 * j), (this.gridHeight / 9 * i) + 7)
+                    ctx.stroke();
+                }
+                if (this.corners[currIndex].sw) {
+                    ctx.moveTo((((this.gridWidth / 9) * j)), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9))))
                     ctx.stroke();
                 }
 
-            currIndex++;
+
+                currIndex++;
             }
         }
     };
