@@ -6,7 +6,7 @@
 **_Killer Sudoku_** is a variant of Sudoku that introduces the additional constraint of *sum groups*. A sum group is a group of non-repeating cells which add up to a specified sum. These sum groups are represented visually with an overlay of dashed lines and red sums. Complete the puzzle by fully filling the board with integers from 1 to 9, such that all rows, columns, squares, and sum groups are populated with non-repeating numbers.
 
 ## Gameplay
-A live link to the player can be found [here](https://monkwire3.github.io).
+A live link to the game can be found [here](https://monkwire3.github.io).
 Select a cell with the mouse, or by using the arrow keys; the selected cell will be highlighted. You can enter a pen marking by first selecting the cell you wish to mark, then using the keyboard to input a number. 
 Pencil markings are added in the same way, except with the Shift key depressed. 
 Error checking is only applied to pen marks, as pencil marks are completely ignored by the game. Each row, column, square, and sum group is checked for repeating numbers. Cells that violate the uniqueness constraint are highlighted in red.
