@@ -96,9 +96,9 @@ export class Game {
                 this.errors.push(true);
             } else {
                 this.errors.push(false);
-            };
-        };
-    };
+            }
+        }
+    }
 
     checkGroup(group) {
         let counts = {};

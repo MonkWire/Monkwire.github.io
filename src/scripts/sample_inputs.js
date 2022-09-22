@@ -8,6 +8,7 @@ export class SampleInputs {
             let cell = new Array(9).fill(-1);
             this.samplePencilMarks.push(cell);
         };
+        
         this.sampleGroups = [
         {sum: 11, cells: [0, 9, 10, 19]},
         {sum: 25, cells: [1, 2, 3, 12]},

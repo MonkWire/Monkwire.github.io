@@ -17,7 +17,7 @@ export class CanvasBoard {
         this.drawColors(ctx);
         if (selectedCell != null) {
             this.highlightSelectedCell(ctx, selectedCell);
-        };
+        }
         this.drawSumsOvelay(ctx);
         this.drawCorners(ctx);
         this.drawSumClues(ctx, selectedCell);
