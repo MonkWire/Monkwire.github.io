@@ -25,7 +25,7 @@ The board is rendered using a canvas element, and updated anytime a 'click' or '
 
 A Game class manages all user marks and error checking. The game Class conveys all errors to the Canvas element in the form of one non-nested array of booleans, with a length equal to the number of cells in on the board. 
 
-![Game error checking code](/assets/canvasUpdateCode.png)
+![Game error checking code](/assets/checkErrorsCode.png)
 
 ## Future Updates
 Currently the puzzles are not auto-generated. Future updates will feature a functional solver and generator. The preloaded puzzles are from [Krazydad.com](https://krazydad.com/killersudoku/).
