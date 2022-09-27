@@ -59,12 +59,14 @@ export class CanvasBoard {
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if (penMarkings[currIndex] != 0) {
-                    ctx.font = '30px serif';
+                    // hard-coded font size = 30px
+                    ctx.font = `${this.gridWidth / 16}px serif`;
                     ctx.fillStyle = 'black';
                     if (errors[currIndex]) {
                         ctx.fillStyle = 'rgb(189, 17, 17)';
                     }
-                    ctx.fillText(`${penMarkings[currIndex]}`, (this.gridWidth / 9) * j + 25, (this.gridHeight / 9) * i + 45);
+                    // offsets: 25 and 45
+                    ctx.fillText(`${penMarkings[currIndex]}`, (this.gridWidth / 9) * j + this.gridWidth / 25, (this.gridHeight / 9) * i + this.gridWidth / 13);
                 };
                 currIndex++
             };
@@ -81,9 +83,11 @@ export class CanvasBoard {
                     for (let c = 0; c < 3; c++) {
                         for (let r = 0; r < 3; r++) {
                             if (pencilMarkings[currIndex][pencilIndex] != -1) {
-                                ctx.font = '15px serif';
+                                // 15px
+                                ctx.font = `${this.gridWidth / 50}px serif`;
                                 ctx.fillStyle = "black";
-                                ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * j + (r * 15) + 15, (this.gridHeight / 9) * i + (c * 15) + 25);
+                                // 15, 15, 15, 25
+                                ctx.fillText(`${pencilMarkings[currIndex][pencilIndex] + 1}`, (this.gridWidth / 9) * j + (r * this.gridWidth / 55) + this.gridWidth / 30, (this.gridHeight / 9) * i + (c * this.gridWidth / 40) + this.gridWidth / 25);
                             };
                             pencilIndex++;
                         };
@@ -178,29 +182,31 @@ export class CanvasBoard {
         }
 
         let currIndex = 0;
+        let wallOffset = this.gridWidth / 85;
+        console.log('wallOffSet: ', wallOffset)
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 ctx.beginPath();
                 ctx.setLineDash([5, 5]);
                 ctx.strokeStyle = 'grey';
                 if (this.walls[currIndex].n) {
-                    ctx.moveTo((this.gridWidth / 9 * j) + 7, (this.gridHeight / 9 * i) + 7)
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridWidth / 9) * i) + 7))
+                    ctx.moveTo((this.gridWidth / 9 * j) + wallOffset, (this.gridHeight / 9 * i) + wallOffset)
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - wallOffset), (((this.gridWidth / 9) * i) + wallOffset))
                 }
 
                 if (this.walls[currIndex].e) {
-                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i) + 7)
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
+                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - wallOffset, ((this.gridHeight / 9) * i) + wallOffset)
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - wallOffset), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - wallOffset))
                 }
 
                 if (this.walls[currIndex].s) {
-                    ctx.moveTo((this.gridWidth / 9 * j) + 7, (this.gridHeight / 9 * i) + ((this.gridHeight / 9) - 7))
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)) - 7, (((this.gridHeight / 9) * i) + (this.gridHeight / 9) - 7))
+                    ctx.moveTo((this.gridWidth / 9 * j) + wallOffset, (this.gridHeight / 9 * i) + ((this.gridHeight / 9) - wallOffset))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)) - wallOffset, (((this.gridHeight / 9) * i) + (this.gridHeight / 9) - wallOffset))
                 }
 
                 if (this.walls[currIndex].w) {
-                    ctx.moveTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i) + 7)
-                    ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
+                    ctx.moveTo(((this.gridWidth / 9 * j) + wallOffset), ((this.gridHeight / 9) * i) + wallOffset)
+                    ctx.lineTo((((this.gridWidth / 9) * j) + wallOffset), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - wallOffset))
                 }
                 ctx.stroke();
                 currIndex++;
@@ -227,10 +233,13 @@ export class CanvasBoard {
                         ctx.fillStyle = this.colors[currIndex];
                     };
 
-                    ctx.fillRect((this.gridWidth / 9) * j, ((this.gridHeight / 9) * i), 23, 20);
-                    ctx.font = '17px serif';
+                    // 23, 20
+                    ctx.fillRect((this.gridWidth / 9) * j, ((this.gridHeight / 9) * i), this.gridWidth / 22, this.gridWidth / 22);
+                    // 17px
+                    ctx.font = `${this.gridWidth / 30}px serif`;
                     ctx.fillStyle = 'rgb(189, 17, 17)';
-                    ctx.fillText(`${this.sumClues[currIndex]}`, ((this.gridWidth / 9) * j) + 5, ((this.gridHeight / 9) * i) + 17);
+                    // +5, +17
+                    ctx.fillText(`${this.sumClues[currIndex]}`, ((this.gridWidth / 9) * j) + this.gridWidth / 90, ((this.gridHeight / 9) * i) + this.gridWidth / 28);
                 };
                 currIndex++;
             };
@@ -360,31 +369,32 @@ export class CanvasBoard {
             this.getCorners();
         }
 
+        let wallOffset = this.gridWidth / 85;
         let currIndex = 0;
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if (this.corners[currIndex].ne) {
-                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - 7, ((this.gridHeight / 9) * i));
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + 7));
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)), (((this.gridWidth / 9) * i) + 7));
+                    ctx.moveTo(((this.gridWidth / 9 * j) + (this.gridWidth / 9)) - wallOffset, ((this.gridHeight / 9) * i));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - wallOffset), (((this.gridHeight / 9) * i) + wallOffset));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)), (((this.gridWidth / 9) * i) + wallOffset));
                     ctx.stroke();
                 }
                 if (this.corners[currIndex].se) {
-                    ctx.moveTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7));
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7));
-                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9))));
+                    ctx.moveTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9)), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - wallOffset));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - wallOffset), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - wallOffset));
+                    ctx.lineTo((((this.gridWidth / 9) * j) + (this.gridWidth / 9) - wallOffset), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9))));
                     ctx.stroke();
                 }
                 if (this.corners[currIndex].nw) {
-                    ctx.moveTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i))
-                    ctx.lineTo(((this.gridWidth / 9 * j) + 7), ((this.gridHeight / 9) * i) + 7)
-                    ctx.lineTo((this.gridWidth / 9 * j), (this.gridHeight / 9 * i) + 7)
+                    ctx.moveTo(((this.gridWidth / 9 * j) + wallOffset), ((this.gridHeight / 9) * i))
+                    ctx.lineTo(((this.gridWidth / 9 * j) + wallOffset), ((this.gridHeight / 9) * i) + wallOffset)
+                    ctx.lineTo((this.gridWidth / 9 * j), (this.gridHeight / 9 * i) + wallOffset)
                     ctx.stroke();
                 }
                 if (this.corners[currIndex].sw) {
-                    ctx.moveTo((((this.gridWidth / 9) * j)), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
-                    ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - 7))
-                    ctx.lineTo((((this.gridWidth / 9) * j) + 7), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9))))
+                    ctx.moveTo((((this.gridWidth / 9) * j)), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - wallOffset))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + wallOffset), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9)) - wallOffset))
+                    ctx.lineTo((((this.gridWidth / 9) * j) + wallOffset), (((this.gridHeight / 9) * i) + ((this.gridHeight / 9))))
                     ctx.stroke();
                 }
 

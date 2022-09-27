@@ -18,13 +18,24 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
 
+
+
+
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext('2d');
-    canvas.height = 600;
-    canvas.width = 600;
+
+    if (window.screen.width < 500) {
+        canvas.width = window.screen.width * .95;
+        canvas.height = window.screen.width * .96;
+
+        
+    } else {
+        canvas.height = 600;
+        canvas.width = 600;
+    }
 
     const sampleInputs = new SampleInputs();
-    let board = new CanvasBoard(9, 600, 600, sampleInputs.puzzle1);
+    let board = new CanvasBoard(9, canvas.width, canvas.height, sampleInputs.puzzle1);
     let game = new Game(sampleInputs.puzzle1);
     const resetButton = document.querySelector("#reset-button");
 
@@ -34,8 +45,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
     const puzzleSelector = document.querySelector("#puzzle-select");
     puzzleSelector.addEventListener("change", (e) => {
-        console.log(e);
-        console.log(puzzleSelector.value)
 
         if (puzzleSelector.value === 'puzzle1') {
             board = new CanvasBoard(9, 600, 600, sampleInputs.puzzle1);
@@ -62,6 +71,46 @@ document.addEventListener("DOMContentLoaded", ()=> {
     resetButton.addEventListener("click", () => {
         game.clearPenMarks();
         game.clearPencilMarks();
+        game.checkErrors();
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+    });
+
+
+
+    const pencilPad = document.querySelector('#pencilPad');;
+     console.log('pencilPad: ', pencilPad)
+    const penPad = document.querySelector('#penPad');;
+
+    for (let i = 0; i < 9; i++) {
+        let penButton = document.createElement('button');
+        let pencilButton = document.createElement('button');
+        penButton.innerText = i +  1
+        pencilButton.innerText = i + 1
+        penButton.classList.add('numButton');
+        pencilButton.classList.add('numButton');
+        penPad.appendChild(penButton);
+        pencilPad.appendChild(pencilButton);
+
+    }
+
+    pencilPad.addEventListener('click', (e) => {
+        if (game.pencilMarks[selectedCell][parseInt(e.target.innerText) - 1] === -1) {
+            game.pencilMarks[selectedCell][parseInt(e.target.innerText) - 1] = parseInt(e.target.innerText - 1);
+        } else {
+            game.pencilMarks[selectedCell][parseInt(e.target.innerText) - 1] = -1;
+        };
+        game.checkErrors();
+        board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
+    });
+
+    penPad.addEventListener('click', (e) => {
+        if (game.penMarks[selectedCell] === parseInt(e.target.innerText)){
+            game.penMarks[selectedCell] = 0;
+
+        } else {
+            game.penMarks[selectedCell] = parseInt(e.target.innerText);
+        }
+
         game.checkErrors();
         board.update(ctx, selectedCell, game.penMarks, game.pencilMarks, game.errors);
     });

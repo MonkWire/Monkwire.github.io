@@ -49,14 +49,6 @@ ul {
   list-style: "- ";
 }
 
-@media (max-width: 900px) {
-  #description {
-    max-width: 90%;
-  }
-  canvas {
-    width: 90%;
-  }
-}
 #menus {
   display: flex;
   margin: auto;
@@ -84,4 +76,43 @@ nav {
 
 select:hover {
   cursor: pointer;
+}
+
+.numPad {
+  display: flex;
+  flex-wrap: wrap;
+  width: 120px;
+  justify-content: space-between;
+}
+
+.numPad button {
+  width: 35px;
+  margin: 2px;
+}
+
+#pencilPad button {
+  background-color: rgb(189, 17, 17);
+  color: lightgrey;
+}
+
+#numPadContainer {
+  display: none;
+  width: 90%;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  #description {
+    max-width: 90%;
+  }
+  #menus {
+    max-width: 90%;
+  }
+}
+@media (max-width: 400px) {
+  #numPadContainer {
+    display: flex;
+  }
 }
