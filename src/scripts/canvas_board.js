@@ -183,7 +183,6 @@ export class CanvasBoard {
 
         let currIndex = 0;
         let wallOffset = this.gridWidth / 85;
-        console.log('wallOffSet: ', wallOffset)
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 ctx.beginPath();

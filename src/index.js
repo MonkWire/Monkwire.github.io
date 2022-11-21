@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
     const pencilPad = document.querySelector('#pencilPad');;
-     console.log('pencilPad: ', pencilPad)
     const penPad = document.querySelector('#penPad');;
 
     for (let i = 0; i < 9; i++) {
